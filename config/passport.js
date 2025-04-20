@@ -1,14 +1,13 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const db = require('../db/queries'); // Ensure this points to your database connection
-const pool = require('../db/pool'); // Ensure this points to your database connection
+const db = require('../db/queries'); 
+const pool = require('../db/pool'); 
 const bcrypt = require('bcryptjs');
 
 passport.use(
   new LocalStrategy(async (username, password, done) => {
     try {
-      const user = await db.getUser(username); // Adjust table name if needed
-      //user = rows[0] from getuser function in queries.js
+      const user = await db.getUser(username); 
     if(!user) {
         // user not found       
         return done(null, false, { message: "Incorrect username" });
@@ -33,7 +32,7 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
   try {
-    const { rows } = await pool.query("SELECT * FROM persons WHERE id = $1", [id]); // Adjust table name if needed
+    const { rows } = await pool.query("SELECT * FROM persons WHERE id = $1", [id]); 
     console.log('id:', id);
 
     if (rows.length === 0) {
